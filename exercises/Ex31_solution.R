@@ -4,9 +4,11 @@ library(readr)
 library(TTR)
 library(xts)
 
+setwd("/home/user/course")
+
 # Oil prices
 
-oil_price_data <- read_csv("brent_spot_price.csv")
+oil_price_data <- read_csv("data/brent_spot_price.csv")
 
 View(oil_price_data)
 
@@ -46,9 +48,8 @@ to.yearly(oil_prices)
 
 # COVID 19
 
-covid_data <- read_csv("covid_19.csv") |>
-
-covid_data <- filter(covid_data, iso_code == "GBR")
+covid_data <- read_csv("data/covid_19.csv") |>
+  filter(iso_code == "GBR")
 
 new_cases_raw <- xts(covid_data$new_cases, order.by=covid_data$date)
 plot(new_cases_raw)
@@ -62,7 +63,7 @@ plot(ts)
 new_deaths <- xts(covid_data$new_deaths_smoothed, order.by=covid_data$date)
 plot(new_deaths)
 
-normalised_cases <- new_cases / max(new_cases, na.rm=TRUE)
+normalized_cases <- new_cases / max(new_cases, na.rm=TRUE)
 normalized_deaths <- new_deaths / max(new_deaths, na.rm=TRUE)
 
 covid_ts <- cbind(normalized_cases, normalized_deaths)

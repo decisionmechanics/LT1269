@@ -8,21 +8,23 @@ library(readr)
 library(RColorBrewer)
 library(TTR)
 
+setwd("/home/user/course")
+
 # Champagne sales
 
 champagne_sales_data <- read_csv("data/champagne_sales.csv")
 
 champagne_sales <- xts(
-  champagne_sales_data$sales, 
+  champagne_sales_data$sales,
   order.by=ym(champagne_sales_data$month)
 )
 
 plot(champagne_sales, main="Champagne sales")
 
-plot(champagne_sales, type="h", main="Champagne sales") 
+plot(champagne_sales, type="h", main="Champagne sales")
 
 chart.TimeSeries(
-  champagne_sales, 
+  champagne_sales,
   period.areas = c("1969"),
   period.color = "#0000FF22",
   event.lines = c("Jan 64"),
@@ -60,9 +62,9 @@ colors=c("red", "black")
 covid <- merge(new_cases, new_deaths, all = FALSE)
 barplot(covid["2020-03::2020-04"], col=colors)
 graphics::legend(
-  "topleft", 
-  c("New deaths", "New cases"), 
-  col=rev(colors), 
+  "topleft",
+  c("New deaths", "New cases"),
+  col=rev(colors),
   lwd=5
 )
 
@@ -71,7 +73,7 @@ graphics::legend(
 amazon_revenue_data <- read_csv("data/amazon_revenue.csv")
 
 amazon_revenues <- xts(
-  amazon_revenue_data$revenue, 
+  amazon_revenue_data$revenue,
   order.by=ym(amazon_revenue_data$quarter)
 )
 
@@ -87,8 +89,8 @@ d <- density(amazon_revenue_change, na.rm=TRUE)
 lines(d, col = "red", lwd = 2)
 
 Acf(
-  amazon_revenue_change, 
-  na.action = na.pass, 
+  amazon_revenue_change,
+  na.action = na.pass,
   main = "Amazon returns ACF"
 )
 
@@ -100,21 +102,21 @@ plot(decomposition)
 tech_stock_data <- read_csv("data/tech_stocks.csv")
 
 tech_stocks <- xts(
-  select(tech_stock_data, -date), 
+  select(tech_stock_data, -date),
   order.by = ymd(tech_stock_data$date)
 )
 
 tech_stock_returns <- ROC(tech_stocks)
 
 boxplot(
-  cbind(tech_stock_returns$aapl, tech_stock_returns$ibm), 
-  horizontal = TRUE, 
+  cbind(tech_stock_returns$aapl, tech_stock_returns$ibm),
+  horizontal = TRUE,
   col = "red"
 )
 
 Acf(
-  tech_stock_returns$ibm, 
-  na.action = na.pass, 
+  tech_stock_returns$ibm,
+  na.action = na.pass,
   main = "IBM returns ACF"
 )
 
@@ -123,15 +125,15 @@ qqline(tech_stock_returns$ibm, col = "red")
 
 plot(coredata(tech_stock_returns[, c("ibm", "msft")]))
 abline(
-  reg=lm(tech_stock_returns$ibm ~ tech_stock_returns$msft), 
-  col="red", 
+  reg=lm(tech_stock_returns$ibm ~ tech_stock_returns$msft),
+  col="red",
   lwd=2
 )
 
 pairs(coredata(tech_stock_returns))
 
 tech_stock_correlations <- cor(
-  coredata(tech_stock_returns), 
+  coredata(tech_stock_returns),
   use = "pairwise.complete.obs"
 )
 

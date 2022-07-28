@@ -20,7 +20,7 @@ mtcars[!my_vars]
 
 mtcars[c(-3,-5)]
 
-mtcars_copy <- mtcars 
+mtcars_copy <- mtcars
 mtcars_copy$qsec <- mtcars_copy$vs <- NULL
 mtcars_copy
 
